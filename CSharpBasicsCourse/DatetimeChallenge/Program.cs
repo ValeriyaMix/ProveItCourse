@@ -12,16 +12,40 @@ class Program
         var inputTime = Console.ReadLine();
 
         var today = DateTime.Now;
+        var todayDate = today.Day;
+        var todayMonth= today.Month;
+        var todayYear= today.Year;  
+        var todayHours = today.Hour;
+        var todayMinutes = today.Minute;
+        Console.WriteLine("\n");
+        Console.WriteLine(todayHours + "\n");
+        Console.WriteLine(todayMinutes + "\n");
 
-        var result = ParseDate(inputDate);
-        Console.WriteLine(result["date"] + "\n");
-        Console.WriteLine(result["month"] +"\n");
-        Console.WriteLine(result["year"] + "\n");
+        var resultDate = ParseDate(inputDate);
+        Console.WriteLine(resultDate["date"] + "\n");
+        Console.WriteLine(resultDate["month"] +"\n");
+        Console.WriteLine(resultDate["year"] + "\n");
+
+        var resultTime = ParseTime(inputTime);
+        Console.WriteLine(resultTime["hours"] + "\n");
+        Console.WriteLine(resultTime["mins"] + "\n");
+    }
+
+    public static Dictionary<string, int> ParseTime(string timeProvided)
+    {
+        var timeBreakDown = new Dictionary<string, int>();
+        var parsedTime = timeProvided.Split(":");
+        var hours = parsedTime[0];
+        var minutes = parsedTime[1];
+        timeBreakDown.Add("hours", Int32.Parse(hours));
+        timeBreakDown.Add("mins", Int32.Parse(minutes));
+
+        return timeBreakDown;
     }
 
     public static Dictionary<string, int> ParseDate(string dateProvided)
     {
-        string[] inputDate = new string[0];
+        string[] parsedDate = new string[0];
         var dateBreakDown = new Dictionary<string, int>();
         var dateLength = dateProvided.Length;
         var datePatternWithSlashes = @"/";
@@ -29,18 +53,18 @@ class Program
 
         if (Regex.IsMatch(dateProvided, datePatternWithSlashes))
         {
-            inputDate = dateProvided.Split("/");
+            parsedDate = dateProvided.Split("/");
         }
         else if (Regex.IsMatch(dateProvided, datePatternWithDots))
         {
-            inputDate = dateProvided.Split(".");
+            parsedDate = dateProvided.Split(".");
         }
 
 
-        var date = inputDate[0];
-        var month = inputDate[1];
-        var year = inputDate[2];
-        if (inputDate[0].Length == 4)
+        var date = parsedDate[0];
+        var month = parsedDate[1];
+        var year = parsedDate[2];
+        if (parsedDate[0].Length == 4)
         {
             dateBreakDown.Add("year", Int32.Parse(date));
             dateBreakDown.Add("month", Int32.Parse(month));
